@@ -173,7 +173,7 @@ class Simulation {
 
   const int num_initial_organisms = 20;
   const double predation_factor = 0.90;
-  const double protection_factor = 0.0;
+  const double protection_factor = 1.0;
   const double fecundity = 1.0;
   const double acorn_distance_factor = 0.2;
   const int absorption_radius = 4;
@@ -453,7 +453,7 @@ public:
 int
 main() {
   Simulation sim(200, 200);
-  sim.run(500);
+  sim.run(5);
   sim.print();
   sim.print_g_distribution();
 }
