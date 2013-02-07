@@ -1,0 +1,37 @@
+init-alt: A small research project to see if genes for community-benefiting
+behavior can evolve in a population consisting entirely of "takers" if the
+benefits decrease with distance from each "giver" and the gene encodes only a
+probability of "giving". In effect, such a gene encodes a probability of
+becoming a worker bee or mitotic cell. Such a probability is one way to
+implement organisms that are partially clones, partially sterile, and
+partially altruistic, as opposed to 100% sterile, 100% cloned, 100% altruistic
+mitotic cells.
+
+The simulation works as follows:
+
+- The organisms live in a 2D world of finite granularity. Each organism
+  occupies one pixel in the world.
+
+- Each generation, resources are deposited equally at all pixels in the world,
+  analogous to sunlight. Each organism absorbs all nutrients within an
+  "absorption radius" minus a certain percentage (say, 90%) that is lost to
+  predation (say, animals eating the organisms' leaves). All organisms have
+  the same absorption radius. Where two or more organisms' absorption zones
+  overlap, they divide the available resources equally among them.
+
+- Organisms have one gene: a probability of "giving". An organism that "gives"
+  converts all its incoming resources into a "protection zone" around it. In
+  the protection zone, all predation is reduced by some percentage that's
+  proportional to the amount of resources absorbed by the giver. The giver
+  gains no benefit from the protection it provides; that only affects other
+  organisms in its protection zone.
+
+- Each generation, all organisms die, and the "takers" produce a number of
+  offspring proportional to the amount of resources they absorbed. The
+  offspring are distributed randomly around the parent organism, with closer
+  distances being more probable. "Givers" produce no offspring.
+
+- Mutation consists of adding or subtracting a small amount to the probability
+  of "giving".
+
+- In the first generation, all organisms are 100% "takers".
