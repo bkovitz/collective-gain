@@ -1,8 +1,11 @@
 \documentclass{article}
+\usepackage{amsmath}
+\usepackage{verbatim}
 \begin{document}
 
 % ABSTRACT
 
+\begin{comment}
 Selective pressure can favor a gene for altruistic behavior even in a
 community of takers who give nothing back, even when the behavior results in
 the giver having no offspring, even when there is no mechanism to detect or
@@ -22,5 +25,27 @@ givers, 100\% sterile), and organisms that try to maximize inclusive fitness
 entirely through their own offspring. The selective pressure favoring partial
 givers provides a genetic explanation for some forms of group selection, and
 predicts as-yet-unexplored correlations between communal giving and sterility.
+
+\end{comment}
+
+The total attempted absorption $T$ at each location is:
+
+$$
+T_{x,y}(t) = \sum\limits_{o \in O(t)} \kern-4pt A(x - o_x, y - o_y)
+$$
+
+\noindent
+where $O(t)$ is all organisms alive at time $t$ and $A(\Delta x, \Delta y)$
+is the attempted absorption relative to an organism's location.
+
+The actual amount $o_A$ absorbed by an organism is:
+
+$$
+o_A(t) = \sum\limits_{x,y} \begin{cases}
+A(x - o_x, y - o_y)  &  \mbox{if }T_{x,y}(t) \leq 1  \\
+\noalign{\vskip 0.5em}
+\dfrac{A(x - o_x, y - o_y)}{T_{x,y}(t)}  & \mbox{if }T_{x,y}(t) > 1
+\end{cases}
+$$
 
 \end{document}
