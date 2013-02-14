@@ -34,39 +34,39 @@ struct Coord {
 namespace std {
   template <> struct hash<Coord> {
     size_t operator()(const Coord& c) const {
-      return hash<int>()(c.x << 8 + c.y);
+      return hash<int>()((c.x << 8) + c.y);
     }
   };
 }
 
 template <typename T>
 class Array2D {
-  uint xsize, ysize;
+  int xsize, ysize;
   T* array;
 public:
-  Array2D(uint x, uint y) : xsize(x), ysize(y), array(new T[x * ysize]) { }
+  Array2D(int x, int y) : xsize(x), ysize(y), array(new T[x * ysize]) { }
   ~Array2D() { delete[] array; }
-  T& operator()(uint x, uint y) { return array[x * ysize + y]; }
+  T& operator()(int x, int y) { return array[x * ysize + y]; }
 
   bool in_bounds(int x, int y) {
     return x >= 0 && x < xsize && y >= 0 && y < ysize;
   }
 
   void zeros() {
-    for (uint x = 0; x < xsize; x++)
-      for (uint y = 0; y < ysize; y++)
+    for (int x = 0; x < xsize; x++)
+      for (int y = 0; y < ysize; y++)
         (*this)(x, y) = 0;
   }
 
   void ones() {
-    for (uint x = 0; x < xsize; x++)
-      for (uint y = 0; y < ysize; y++)
+    for (int x = 0; x < xsize; x++)
+      for (int y = 0; y < ysize; y++)
         (*this)(x, y) = 1;
   }
 
   void print() {
-    for (uint y = 0; y < ysize; y++) {
-      for (uint x = 0; x < xsize; x++) {
+    for (int y = 0; y < ysize; y++) {
+      for (int x = 0; x < xsize; x++) {
         cout << std::setprecision(2) << std::setw(4) << std::fixed
              << (*this)(x, y) << ' ';
       }
@@ -75,8 +75,8 @@ public:
   }
 
   void print_pct() {
-    for (uint y = 0; y < ysize; y++) {
-      for (uint x = 0; x < xsize; x++) {
+    for (int y = 0; y < ysize; y++) {
+      for (int x = 0; x < xsize; x++) {
         cout << std::setprecision(0) << std::setw(4) << std::fixed
              << (*this)(x, y) * 100.0 << ' ';
       }
@@ -104,6 +104,7 @@ struct Organism {
     is_giver = that.is_giver;
     x = that.x;
     y = that.y;
+    return *this;
   }
 };
 
@@ -146,7 +147,7 @@ public:
       return table(dx + radius, dy + radius);
   }
 
-  void apply_to(
+  void add_to(
     Array2D<double>& array,
     int x_center,
     int y_center,
@@ -189,7 +190,7 @@ class Simulation {
 
   int num_givers = 0;
 
-  id next_id;
+  id next_id = 0;
   RandomUniformInt random_x;
   RandomUniformInt random_y;
   RandomUniformReal unit_interval_random = RandomUniformReal(0.0, 1.0);
@@ -203,16 +204,15 @@ public:
     world_y(y),
     radial_absorption(absorption_radius),
     radial_protection(protection_radius),
-    next_id(0),
     total_attempted_absorption(world_x, world_y),
     total_protection(world_x, world_y),
     random_x(0, world_x - 1),
     random_y(0, world_y - 1)
   { }
 
-  void run(unsigned int num_generations) {
+  void run(uint num_generations) {
     make_initial_organisms();
-    for (int gen = 0; gen < num_generations; gen++) {
+    for (uint gen = 0; gen < num_generations; gen++) {
       cout << "generation " << gen << endl;
       run_one_generation();
       cout << endl;
@@ -265,7 +265,7 @@ public:
   void add_up_attempted_absorption() {
     for (auto it = organisms.begin(); it != organisms.end(); ++it) {
       Organism& o = it->second;
-      radial_absorption.apply_to(total_attempted_absorption, o.x, o.y);
+      radial_absorption.add_to(total_attempted_absorption, o.x, o.y);
     }
   }
 
@@ -303,7 +303,7 @@ public:
     for (auto it = organisms.begin(); it != organisms.end(); ++it) {
       Organism& o = it->second;
       if (o.is_giver)
-        radial_protection.apply_to(
+        radial_protection.add_to(
             total_protection, o.x, o.y, o.sunlight_absorbed * protection_factor
         );
     }
@@ -453,7 +453,7 @@ public:
 int
 main() {
   Simulation sim(200, 200);
-  sim.run(5);
+  sim.run(10);
   sim.print();
   sim.print_g_distribution();
 }

@@ -11,4 +11,5 @@ int main() {
    Coord c{2, 3};
 
    cout << c.x << ' ' << c.y << endl;
+   cout << (1 << 8 + 2) << endl;
 }

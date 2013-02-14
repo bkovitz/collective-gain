@@ -1,4 +1,4 @@
-CXXFLAGS = -std=c++11 -O3
+CXXFLAGS = -std=c++11 -Wall -O3
 LDFLAGS = -lm
 
 RANDOM_OBJS = random.o
