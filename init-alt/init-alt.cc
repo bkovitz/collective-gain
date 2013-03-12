@@ -165,7 +165,7 @@ public:
     }
   }
 
-  double sum() { return sum_; }
+  double sum() const { return sum_; }
 };
 
 class Simulation {
@@ -189,6 +189,9 @@ class Simulation {
   unordered_map<Coord, Organism> offspring;
 
   int num_givers = 0;
+  int total_num_children = 0;
+  int total_children_produced = 0;
+  int gen = 0;
 
   id next_id = 0;
   RandomUniformInt random_x;
@@ -210,9 +213,13 @@ public:
     random_y(0, world_y - 1)
   { }
 
-  void run(uint num_generations) {
+  void run(int num_generations) {
+    cout << "absorption sum: " << radial_absorption.sum() << endl;
+    cout << "protection sum: " << radial_protection.sum() << endl;
     make_initial_organisms();
-    for (uint gen = 0; gen < num_generations; gen++) {
+    print();
+    for (gen = 1; gen <= num_generations; gen++) {
+      cout << "----------------------------------------------------------\n\n";
       cout << "generation " << gen << endl;
       run_one_generation();
       cout << endl;
@@ -222,8 +229,6 @@ public:
   }
 
   void run_one_generation() {
-    print();
-
     total_protection.ones();
     total_attempted_absorption.zeros();
 
@@ -244,6 +249,8 @@ public:
     make_offspring();
     std::swap(organisms, offspring);
     offspring.clear();
+
+    print();
   }
 
   void make_initial_organisms() {
@@ -319,20 +326,21 @@ public:
 
   void make_offspring() {
     offspring.clear();
+    total_num_children = 0;
+    total_children_produced = 0;
     for (auto it = organisms.begin(); it != organisms.end(); ++it) {
       Organism& o = it->second;
       if (!o.is_giver) {
         double num_children = random_poisson(o.sunlight_absorbed * fecundity);
+        total_num_children += num_children;
+
+        int children_produced = 0;
         /*
-        cout << '(' << o.x << ", " << o.y << ')'
-             << " num_children: " << num_children 
-             << " g: " << o.giver_probability
-             << " sunlight_absorbed: " << o.sunlight_absorbed
-             << endl;
-        */
-        for (int i = 0, children_produced = 0;
+        for (int i = 0;
              i < 3 * num_children && children_produced < num_children;
              i++) {
+        */
+        for (int i = 0; i < 200 && children_produced < num_children; i++) {
           double distance_from_parent = fabs(random_normal(
               0.0, o.sunlight_absorbed * acorn_distance_factor
           ));
@@ -347,17 +355,16 @@ public:
                 Organism(mutation_delta(o.giver_probability), c.x, c.y)
             );
             children_produced++;
-            /*
-            cout << "  child at "
-                 << '(' << c.x << ", " << c.y << ')'
-                 << " g: " << std::setprecision(2)
-                 <<           offspring.at(c).giver_probability
-                 << endl;
-            */
+            total_children_produced++;
           }
         }
       }
     }
+    cout << total_num_children
+         << " - " << total_children_produced
+         << " = " << total_num_children - total_children_produced
+         << " children lost due to lack of space"
+         << endl;
   }
 
   bool in_bounds(int x, int y) {
@@ -400,6 +407,15 @@ public:
       cout << endl;
     }
     cout << endl;
+
+    cout << "data "
+         << gen << ' '
+         << organisms.size() << ' '
+         << std::setprecision(2) << average_g() << ' '
+         << num_givers << ' '
+         << total_num_children << ' '
+         << total_num_children - total_children_produced
+         << endl;
   }
 
   double average_g() {
@@ -452,9 +468,9 @@ public:
 
 int
 main() {
-  Simulation sim(200, 200);
-  sim.run(10);
-  sim.print();
+  Simulation sim(20, 20);
+  sim.run(100);
+  //sim.print();
   sim.print_g_distribution();
 }
 
