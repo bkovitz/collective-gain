@@ -1,7 +1,7 @@
 % "collective gain" simulation
 
 function cg
-  world_size = [20 20];
+  world_size = [200 200];
   a_rad = 4;   % absorption radius
   protection_factor = 1;
   predation_factor = 0.9;
@@ -9,7 +9,7 @@ function cg
   g_sigma = 0.01;
   max_absorption = 40;
   num_initial_organisms = 20;
-  num_generations = 50;
+  num_generations = 100;
 
   absorption_delta = make_delta(a_rad, @(x,y)a_rad-dist([x y],[0 0]'));
                      %* diag([1 1 max_absorption]);
@@ -70,6 +70,12 @@ function cg
     organisms = [];
     olocs = zeros(world_size);
     num_children = poissrnd(absorbed,size(absorbed));
+    for p = 1:length(parents)
+      if givers(p)
+        num_children(p) = 0;
+      end
+    end
+
     actual_children = zeros(size(absorbed));
     for p = 1:length(parents)
       for c = 1:num_children(p)

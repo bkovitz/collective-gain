@@ -1,22 +1,46 @@
-(import (keywords))
+(import (chezscheme) (keywords))
+
+(cp0-outer-unroll-limit 10)
 
 (library-group
   (import (chezscheme) (ghi) (object) (matrix) (probability) (debug))
 
 (define run
   (λ ()
-    (let ([world (object size: (object x: 20 y: 20)
-                         num-gens: 100)])
+    (random-seed (time-seed))
+    (printf "sum of near-absorption: ~s\n"
+          (let-sum ([delta near-absorption])
+            (delta delta:)))
+    (let ([world (object size: (object x: 200 y: 200)
+                         num-gens: 10
+                         acorn-distance-factor: 1.0)])
       (make-initial-population! world 20)
       (print-world world)
       (for ([gen (from-to 1 (world num-gens:))])
         (printf "~a\ngen ~d\n" (make-string 72 #\-) gen)
         (world 'set! gen: gen)
         (one-generation! world)
-        (printf "# givers: ~s\n" (let-count ([o (world parents:)])
-                                   (o giver?:)))
-        (printf "new population: ~s\n" (length (world organisms:)))
+        (let* ([num-givers  (let-count ([o (world parents:)])
+                              (o giver?:))]
+               [num-attempted-offspring
+                            (let-sum ([o (world parents:)])
+                              (o num-attempted-offspring:))]
+               [population  (length (world organisms:))]
+               [num-missing-children
+                            (- num-attempted-offspring population)]
+               [missing-children-pct
+                            (pct (/ num-missing-children
+                                    num-attempted-offspring))])
+          (printf "# givers: ~s\n" num-givers)
+          (printf "attempted children: ~s\n" num-attempted-offspring)
+          (printf "missing children: ~s (~s%)\n"
+              num-missing-children missing-children-pct)
+          (printf "new population: ~s\n" population))
         (print-world world)))))
+
+(define pct
+  (λ (x)
+    (exact (round (* 100.0 x)))))
 
 (define make-initial-population!
   (λ (world num-organisms)
@@ -81,8 +105,10 @@
   (λ (world loc delta)
     (let ([loc (loc+ loc delta)])
       (if (world attempted-absorption: 'in-bounds? loc)
-          (/ (delta delta:)
-             (world attempted-absorption: loc))
+          (if (> (world attempted-absorption: loc) 1.0)
+              (/ (delta delta:)
+                 (world attempted-absorption: loc))
+              (world attempted-absorption: loc))
           0))))
 
 (define decide-who-becomes-a-giver!
@@ -115,9 +141,12 @@
     (world 'set! parents: (world organisms:))
     (world 'set! organisms: '())
     (for ([p (world parents:)])
-      (p 'set! num-attempted-offspring: (random-poisson (p sunlight:)))
-      (repeat (p num-attempted-offspring:)
-        (make-one-child! world p)))))
+      (if (p giver?:)
+          (p 'set! num-attempted-offspring: 0)
+          (begin
+            (p 'set! num-attempted-offspring: (random-poisson (p sunlight:)))
+            (repeat (p num-attempted-offspring:)
+              (make-one-child! world p)))))))
 
 (define make-one-child!
   (λ (world p)
@@ -125,7 +154,8 @@
       (repeat 20
         (let ([child-loc (random-location-centered-at
                               (p loc:)
-                              (random-poisson (p sunlight:)))])
+                              (random-poisson (* (world acorn-distance-factor:)
+                                                 (p sunlight:))))])
           (when (location-ok? world child-loc)
                 (world 'cons! organisms:
                     (object loc: (object x: (child-loc x:) y: (child-loc y:))
@@ -191,10 +221,13 @@
           (o sunlight:)
           (o num-attempted-offspring:)))))
 
-(import (tests))
+(collect)
+(time (run))
 
-(test (begin (run) #t)
-      #t)
+;(import (tests))
+;
+;(test (begin (run) #t)
+;      #t)
 
 ;(define one-generation!
 ;  (λ (world)
