@@ -175,7 +175,7 @@ class Simulation {
   const int num_initial_organisms = 20;
   const double predation_factor = 0.90;
   const double protection_factor = 1.0;
-  const double fecundity = 1.0;
+  const double fecundity = 2.0;
   const double acorn_distance_factor = 1.0;
   const int absorption_radius = 4;
   const int protection_radius = 4;
