@@ -18,3 +18,15 @@
 ;;     Each absorbs sunlight
 ;;     Givers give protection
 ;;     Takers put children into nearby squares, limited by sunlight absorbed
+
+
+(def x-size 30)
+(def y-size 30)
+
+(defn make-squares []
+  )
+
+
+(defn make-world []
+  {:squares (make-squares)
+   :organisms (make-organisms)})
