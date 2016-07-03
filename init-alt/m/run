@@ -1,0 +1,7 @@
+#!/bin/env bash
+
+cat cg.m
+echo ---------------------------------------------------------------------
+matlab -nodisplay -nojvm -r cg <<-EOF
+exit
+EOF

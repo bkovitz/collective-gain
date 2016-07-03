@@ -1,0 +1,16 @@
+STEP  RESULT                       INPUT
+ 
+  1   attempted-absorption matrix  all organisms
+
+  2   sunlight-before-absorption   all organisms,
+      of each organism             attempted-absorption
+
+  3   giver? of each organism      g of each organism
+
+  4   protection matrix            all giver organisms,
+                                   their sunlight-before-predation
+
+  5   sunlight of all organisms    protection, each organism
+
+  6   children                     all organisms
+

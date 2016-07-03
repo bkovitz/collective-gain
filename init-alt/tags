@@ -1,0 +1,159 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Array2D	init-alt.cc	/^  Array2D(int x, int y) : xsize(x), ysize(y), array(new T[x * ysize]) { }$/;"	f	class:Array2D
+Array2D	init-alt.cc	/^class Array2D {$/;"	c	file:
+CXXFLAGS	Makefile	/^CXXFLAGS = -std=c++11 -Wall -O3$/;"	m
+C_OBJS	Makefile	/^C_OBJS = c.o $(RANDOM_OBJS)$/;"	m
+Coord	a.cc	/^struct Coord {$/;"	s	file:
+Coord	init-alt.cc	/^struct Coord {$/;"	s	file:
+INIT_ALT_OBJS	Makefile	/^INIT_ALT_OBJS = init-alt.o $(RANDOM_OBJS)$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS = -lm$/;"	m
+OBJS	Makefile	/^OBJS = $(INIT_ALT_OBJS) $(C_OBJS)$/;"	m
+Organism	init-alt.cc	/^  Organism(const Organism& that) :$/;"	f	struct:Organism
+Organism	init-alt.cc	/^  Organism(double g, int x_, int y_) : giver_probability(g), x(x_), y(y_) { }$/;"	f	struct:Organism
+Organism	init-alt.cc	/^struct Organism {$/;"	s	file:
+PIPE	run.py	/^from subprocess import Popen, PIPE$/;"	i
+Parameters	test-params.cc	/^  Parameters(int argc, char** argv) {$/;"	f	struct:Parameters
+Parameters	test-params.cc	/^struct Parameters {$/;"	s	file:
+Params	d.cc	/^struct Params {$/;"	s	file:
+Popen	run.py	/^from subprocess import Popen, PIPE$/;"	i
+RANDOM_H_INCLUDED	random.h	2;"	d
+RANDOM_OBJS	Makefile	/^RANDOM_OBJS = random.o$/;"	m
+RadialDecayTable	init-alt.cc	/^  RadialDecayTable(uint r)$/;"	f	class:RadialDecayTable
+RadialDecayTable	init-alt.cc	/^class RadialDecayTable {$/;"	c	file:
+Random	random.h	/^  Random(Args&& ...args)$/;"	f	class:Random
+Random	random.h	/^class Random {$/;"	c
+RandomTruncatedNormal	random.h	/^  RandomTruncatedNormal(double mean_, double standard_deviation) :$/;"	f	class:RandomTruncatedNormal
+RandomTruncatedNormal	random.h	/^class RandomTruncatedNormal : protected RandomNormal {$/;"	c
+RandomUniformInt	b.cc	/^   RandomUniformInt(int lb, int ub) :$/;"	f	class:RandomUniformInt
+RandomUniformInt	b.cc	/^class RandomUniformInt {$/;"	c	file:
+Simulation	asim.cc	/^    Simulation(uint world_x, uint world_y)$/;"	f	class:Simulation
+Simulation	asim.cc	/^  class Simulation {$/;"	c	file:
+Simulation	init-alt.cc	/^  Simulation(uint x, uint y)$/;"	f	class:Simulation
+Simulation	init-alt.cc	/^class Simulation {$/;"	c	file:
+Switch	e.cc	/^class Switch : public string { };$/;"	c	file:
+TimeSeedSeq	b.cc	/^   TimeSeedSeq() :$/;"	f	class:TimeSeedSeq
+TimeSeedSeq	b.cc	/^class TimeSeedSeq {$/;"	c	file:
+TimeSeedSeq	random.h	/^   TimeSeedSeq() :$/;"	f	class:TimeSeedSeq
+TimeSeedSeq	random.h	/^class TimeSeedSeq {$/;"	c
+Value	e.cc	/^class Value : public string { };$/;"	c	file:
+absorption_radius	init-alt.cc	/^  const int absorption_radius = 4;$/;"	m	class:Simulation	file:
+acorn_distance_factor	init-alt.cc	/^  const double acorn_distance_factor = 1.0;$/;"	m	class:Simulation	file:
+add_to	init-alt.cc	/^  void add_to($/;"	f	class:RadialDecayTable
+add_up_attempted_absorption	asim.cc	/^    void add_up_attempted_absorption() {$/;"	f	class:Simulation
+add_up_attempted_absorption	init-alt.cc	/^  void add_up_attempted_absorption() {$/;"	f	class:Simulation
+amount	init-alt.cc	/^  double amount(int dx, int dy) const {$/;"	f	class:RadialDecayTable
+array	init-alt.cc	/^  T* array;$/;"	m	class:Array2D	file:
+average_g	init-alt.cc	/^  double average_g() {$/;"	f	class:Simulation
+d	d.cc	/^  double d;$/;"	m	struct:Params	file:
+d	test-params.cc	/^  double d = 200.0;$/;"	m	struct:Parameters	file:
+decide_who_gives	init-alt.cc	/^  void decide_who_gives() {$/;"	f	class:Simulation
+distance_from_origin	init-alt.cc	/^distance_from_origin(double dx, double dy) {$/;"	f
+distribute_protection	init-alt.cc	/^  void distribute_protection() {$/;"	f	class:Simulation
+distribution	b.cc	/^   std::uniform_int_distribution<int> distribution;$/;"	m	class:RandomUniformInt	file:
+distribution	random.h	/^  DistributionType<OutputType> distribution;$/;"	m	class:Random
+fecundity	init-alt.cc	/^  const double fecundity = 1.0;$/;"	m	class:Simulation	file:
+figure_sunlight_before_predation	init-alt.cc	/^  void figure_sunlight_before_predation() {$/;"	f	class:Simulation
+find_random_empty_pixel	init-alt.cc	/^  Coord find_random_empty_pixel() {$/;"	f	class:Simulation
+gen	init-alt.cc	/^  int gen = 0;$/;"	m	class:Simulation	file:
+giver_probability	init-alt.cc	/^  double giver_probability;$/;"	m	struct:Organism	file:
+hash	init-alt.cc	/^  template <> struct hash<Coord> {$/;"	s	namespace:std	file:
+i	d.cc	/^  int i;$/;"	m	struct:Params	file:
+i	test-params.cc	/^  int i = 100;$/;"	m	struct:Parameters	file:
+id	init-alt.cc	/^typedef uint id;$/;"	t	file:
+in_bounds	init-alt.cc	/^  bool in_bounds(int x, int y) {$/;"	f	class:Array2D
+in_bounds	init-alt.cc	/^  bool in_bounds(int x, int y) {$/;"	f	class:Simulation
+is_giver	init-alt.cc	/^  bool is_giver;$/;"	m	struct:Organism	file:
+main	a.cc	/^int main() {$/;"	f
+main	b.cc	/^int main() {$/;"	f
+main	c.cc	/^int main() {$/;"	f
+main	e.cc	/^int main() {$/;"	f
+main	init-alt.cc	/^main() {$/;"	f
+main	test-params.cc	/^main(int argc, char** argv) {$/;"	f
+make_initial_organisms	init-alt.cc	/^  void make_initial_organisms() {$/;"	f	class:Simulation
+make_offspring	init-alt.cc	/^  void make_offspring() {$/;"	f	class:Simulation
+mean	random.h	/^  double mean;$/;"	m	class:RandomTruncatedNormal
+mutation_delta	init-alt.cc	/^  double mutation_delta(double g) {$/;"	f	class:Simulation
+next_id	init-alt.cc	/^  id next_id = 0;$/;"	m	class:Simulation	file:
+next_seed	b.cc	/^   unsigned next_seed() { return rng(); }$/;"	f	class:TimeSeedSeq
+next_seed	random.h	/^   unsigned next_seed() { return rng(); }$/;"	f	class:TimeSeedSeq
+null	run.py	/^null = file('\/dev\/null', 'w')$/;"	v
+num_givers	init-alt.cc	/^  int num_givers = 0;$/;"	m	class:Simulation	file:
+num_initial_organisms	init-alt.cc	/^  const int num_initial_organisms = 20;$/;"	m	class:Simulation	file:
+offspring	init-alt.cc	/^  unordered_map<Coord, Organism> offspring;$/;"	m	class:Simulation	file:
+ones	init-alt.cc	/^  void ones() {$/;"	f	class:Array2D
+operator ()	b.cc	/^   int operator()() { return distribution(rng); }$/;"	f	class:RandomUniformInt
+operator ()	init-alt.cc	/^    size_t operator()(const Coord& c) const {$/;"	f	struct:std::hash
+operator ()	init-alt.cc	/^  T& operator()(int x, int y) { return array[x * ysize + y]; }$/;"	f	class:Array2D
+operator ()	random.h	/^  OutputType operator()() { return distribution(rng); }$/;"	f	class:Random
+operator ()	random.h	/^  int operator()() { return (int)(mean + (int)distribution(rng) + 0.5); }$/;"	f	class:RandomTruncatedNormal
+operator <<	test-params.cc	/^ostream& operator<<(ostream& os, const Parameters& p) {$/;"	f
+operator =	init-alt.cc	/^  Organism& operator=(const Organism& that) {$/;"	f	struct:Organism
+operator ==	init-alt.cc	/^  bool operator==(const Coord& that) const {$/;"	f	struct:Coord
+operator >>	e.cc	/^istream& operator>>(istream& is, Switch& swtch) {$/;"	f
+operator >>	e.cc	/^istream& operator>>(istream& is, Value& value) {$/;"	f
+organisms	init-alt.cc	/^  unordered_map<Coord, Organism> organisms;$/;"	m	class:Simulation	file:
+perform_predation	init-alt.cc	/^  void perform_predation() {$/;"	f	class:Simulation
+pi	c.cc	/^constexpr double pi() { return std::atan(1)*4; }$/;"	f
+predation_factor	init-alt.cc	/^  const double predation_factor = 0.90;$/;"	m	class:Simulation	file:
+print	init-alt.cc	/^  void print() {$/;"	f	class:Array2D
+print	init-alt.cc	/^  void print() {$/;"	f	class:Simulation
+print_g_distribution	init-alt.cc	/^  void print_g_distribution() {$/;"	f	class:Simulation
+print_pct	init-alt.cc	/^  void print_pct() {$/;"	f	class:Array2D
+print_protection	init-alt.cc	/^  void print_protection() {$/;"	f	class:Simulation
+print_sunlight_absorbed	init-alt.cc	/^  void print_sunlight_absorbed() {$/;"	f	class:Simulation
+protection_factor	init-alt.cc	/^  const double protection_factor = 1.0;$/;"	m	class:Simulation	file:
+protection_radius	init-alt.cc	/^  const int protection_radius = 4;$/;"	m	class:Simulation	file:
+r2	init-alt.cc	/^  const double r2;  \/\/ radius squared$/;"	m	class:RadialDecayTable	file:
+radial_absorption	asim.cc	/^    const RadialDecayTable radial_absorption;$/;"	m	class:Simulation	file:
+radial_absorption	init-alt.cc	/^  const RadialDecayTable radial_absorption;$/;"	m	class:Simulation	file:
+radial_protection	init-alt.cc	/^  const RadialDecayTable radial_protection;$/;"	m	class:Simulation	file:
+radius	init-alt.cc	/^  const int radius;$/;"	m	class:RadialDecayTable	file:
+random_angle	init-alt.cc	/^  RandomUniformReal random_angle = RandomUniformReal(0.0, 2.0 * M_PI);$/;"	m	class:Simulation	file:
+random_mutation_delta	init-alt.cc	/^  RandomNormal random_mutation_delta = RandomNormal(0.0, 0.01);$/;"	m	class:Simulation	file:
+random_normal	random.h	/^inline double random_normal(double mean, double standard_deviation) {$/;"	f
+random_poisson	random.h	/^inline int random_poisson(double mean) {$/;"	f
+random_x	init-alt.cc	/^  RandomUniformInt random_x;$/;"	m	class:Simulation	file:
+random_y	init-alt.cc	/^  RandomUniformInt random_y;$/;"	m	class:Simulation	file:
+rng	b.cc	/^   std::default_random_engine rng;$/;"	m	class:RandomUniformInt	file:
+rng	b.cc	/^   std::default_random_engine rng;$/;"	m	class:TimeSeedSeq	file:
+rng	random.h	/^   std::default_random_engine rng;$/;"	m	class:TimeSeedSeq
+rng	random.h	/^  std::default_random_engine rng;$/;"	m	class:Random
+run	init-alt.cc	/^  void run(int num_generations) {$/;"	f	class:Simulation
+run	test-params.cc	/^run(const Parameters& p) {$/;"	f
+run1	run.py	/^def run1(cmd):$/;"	f
+run_one_generation	init-alt.cc	/^  void run_one_generation() {$/;"	f	class:Simulation
+seeder	b.cc	/^   static TimeSeedSeq seeder;$/;"	m	class:RandomUniformInt	file:
+seeder	b.cc	/^RandomUniformInt::seeder;$/;"	m	class:RandomUniformInt	file:
+seeder	random.cc	/^TimeSeedSeq seeder;$/;"	v
+std	init-alt.cc	/^namespace std {$/;"	n	file:
+sum	init-alt.cc	/^  double sum() const { return sum_; }$/;"	f	class:RadialDecayTable
+sum_	init-alt.cc	/^  double sum_;$/;"	m	class:RadialDecayTable	file:
+sunlight_absorbed	init-alt.cc	/^  double sunlight_absorbed;$/;"	m	struct:Organism	file:
+sys	run.py	/^import sys$/;"	i
+table	init-alt.cc	/^  mutable Array2D<double> table; \/\/ table[dx][dy] = amount after decay at dx,dy$/;"	m	class:RadialDecayTable	file:
+time_cmd	run.py	/^time_cmd = ['time', '-f', '%U %M']$/;"	v
+time_seed	b.cc	/^   unsigned time_seed() {$/;"	f	class:RandomUniformInt
+total_attempted_absorption	asim.cc	/^    Array2D<double> total_attempted_absorption;$/;"	m	class:Simulation	file:
+total_attempted_absorption	init-alt.cc	/^  Array2D<double> total_attempted_absorption;$/;"	m	class:Simulation	file:
+total_children_produced	init-alt.cc	/^  int total_children_produced = 0;$/;"	m	class:Simulation	file:
+total_num_children	init-alt.cc	/^  int total_num_children = 0;$/;"	m	class:Simulation	file:
+total_protection	init-alt.cc	/^  Array2D<double> total_protection;$/;"	m	class:Simulation	file:
+uint	init-alt.cc	/^typedef unsigned int uint;$/;"	t	file:
+unit_interval_random	init-alt.cc	/^  RandomUniformReal unit_interval_random = RandomUniformReal(0.0, 1.0);$/;"	m	class:Simulation	file:
+world_x	init-alt.cc	/^  const int world_x;$/;"	m	class:Simulation	file:
+world_y	init-alt.cc	/^  const int world_y;$/;"	m	class:Simulation	file:
+x	a.cc	/^   int x, y;$/;"	m	struct:Coord	file:
+x	init-alt.cc	/^  int x, y;$/;"	m	struct:Coord	file:
+x	init-alt.cc	/^  int x, y;$/;"	m	struct:Organism	file:
+xsize	init-alt.cc	/^  int xsize, ysize;$/;"	m	class:Array2D	file:
+y	a.cc	/^   int x, y;$/;"	m	struct:Coord	file:
+y	init-alt.cc	/^  int x, y;$/;"	m	struct:Coord	file:
+y	init-alt.cc	/^  int x, y;$/;"	m	struct:Organism	file:
+ysize	init-alt.cc	/^  int xsize, ysize;$/;"	m	class:Array2D	file:
+zeros	init-alt.cc	/^  void zeros() {$/;"	f	class:Array2D
+~Array2D	init-alt.cc	/^  ~Array2D() { delete[] array; }$/;"	f	class:Array2D

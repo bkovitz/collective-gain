@@ -1,0 +1,78 @@
+==12361== Memcheck, a memory error detector
+==12361== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==12361== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==12361== Command: ./init-alt
+==12361== Parent PID: 344
+==12361== 
+--12361-- 
+--12361-- Valgrind options:
+--12361--    -v
+--12361--    --gen-suppressions=yes
+--12361--    --log-file=val.out
+--12361-- Contents of /proc/version:
+--12361--   Linux version 2.6.32-279.19.1.el6.x86_64 (mockbuild@x86-001.build.bos.redhat.com) (gcc version 4.4.6 20120305 (Red Hat 4.4.6-4) (GCC) ) #1 SMP Sat Nov 24 14:35:28 EST 2012
+--12361-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--12361-- Page sizes: currently 4096, max supported 4096
+--12361-- Valgrind library directory: /nobackup/bkovitz/opt/lib/valgrind
+--12361-- Reading syms from /nfs/nfs4/home/bkovitz/res/init-alt/init-alt
+--12361-- Reading syms from /nfs/nfs5/home/nobackup/bkovitz/opt/lib/valgrind/memcheck-amd64-linux
+--12361--    object doesn't have a dynamic symbol table
+--12361-- Reading syms from /lib64/ld-2.12.so
+--12361-- Scheduler: using generic scheduler lock implementation.
+--12361-- Reading suppressions file: /nobackup/bkovitz/opt/lib/valgrind/default.supp
+==12361== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-12361-by-bkovitz-on-wack.cs.indiana.edu
+==12361== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-12361-by-bkovitz-on-wack.cs.indiana.edu
+==12361== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-12361-by-bkovitz-on-wack.cs.indiana.edu
+==12361== 
+==12361== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==12361== don't want to do, unless you know exactly what you're doing,
+==12361== or are doing some strange experiment):
+==12361==   /nobackup/bkovitz/opt/lib/valgrind/../../bin/vgdb --pid=12361 ...command...
+==12361== 
+==12361== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==12361==   /path/to/gdb ./init-alt
+==12361== and then give GDB the following command
+==12361==   target remote | /nobackup/bkovitz/opt/lib/valgrind/../../bin/vgdb --pid=12361
+==12361== --pid is optional if only one valgrind process is running
+==12361== 
+--12361-- REDIR: 0x3dca2174a0 (strlen) redirected to 0x3806c751 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--12361-- Reading syms from /nfs/nfs5/home/nobackup/bkovitz/opt/lib/valgrind/vgpreload_core-amd64-linux.so
+--12361-- Reading syms from /nfs/nfs5/home/nobackup/bkovitz/opt/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+--12361-- REDIR: 0x3dca217310 (index) redirected to 0x4a07ca0 (index)
+--12361-- REDIR: 0x3dca217390 (strcmp) redirected to 0x4a08cb0 (strcmp)
+--12361-- Reading syms from /nfs/nfs5/home/nobackup/bkovitz/opt/lib64/libstdc++.so.6.0.17
+--12361-- Reading syms from /lib64/libm-2.12.so
+--12361-- Reading syms from /nfs/nfs5/home/nobackup/bkovitz/opt/lib64/libgcc_s.so.1
+--12361-- Reading syms from /lib64/libc-2.12.so
+--12361-- REDIR: 0x3dca6846b0 (strcasecmp) redirected to 0x48016be (_vgnU_ifunc_wrapper)
+--12361-- REDIR: 0x3dca686970 (strncasecmp) redirected to 0x48016be (_vgnU_ifunc_wrapper)
+--12361-- REDIR: 0x3dca682620 (__GI_strrchr) redirected to 0x4a07ac0 (__GI_strrchr)
+--12361-- REDIR: 0x3dca680b40 (__GI_strlen) redirected to 0x4a08020 (__GI_strlen)
+--12361-- REDIR: 0x3dca67f0c0 (strcmp) redirected to 0x48016be (_vgnU_ifunc_wrapper)
+--12361-- REDIR: 0x3dca7272c0 (__strcmp_sse42) redirected to 0x4a08c10 (strcmp)
+--12361-- REDIR: 0xffffffffff600000 (???) redirected to 0x3806c733 (vgPlain_amd64_linux_REDIR_FOR_vgettimeofday)
+--12361-- REDIR: 0x4c6b270 (operator new[](unsigned long)) redirected to 0x4a06a82 (operator new[](unsigned long))
+--12361-- REDIR: 0x4c6b160 (operator new(unsigned long)) redirected to 0x4a070ff (operator new(unsigned long))
+--12361-- REDIR: 0x3dca683380 (memset) redirected to 0x48016be (_vgnU_ifunc_wrapper)
+--12361-- REDIR: 0x3dca6833c0 (__GI_memset) redirected to 0x4a0a0e0 (memset)
+--12361-- REDIR: 0x4c693d0 (operator delete(void*)) redirected to 0x4a06165 (operator delete(void*))
+--12361-- REDIR: 0x3dca689050 (memcpy) redirected to 0x4a09270 (memcpy)
+--12361-- REDIR: 0x3dca682db0 (bcmp) redirected to 0x48016be (_vgnU_ifunc_wrapper)
+--12361-- REDIR: 0x3dca73d630 (__memcmp_sse4_1) redirected to 0x4a09d00 (bcmp)
+--12361-- REDIR: 0x3dca68a4d0 (strchrnul) redirected to 0x4a0a630 (strchrnul)
+--12361-- REDIR: 0x3dca67af00 (free) redirected to 0x4a0657f (free)
+--12361-- REDIR: 0x3dca682d30 (memchr) redirected to 0x4a08d50 (memchr)
+--12361-- REDIR: 0x4c69400 (operator delete[](void*)) redirected to 0x4a05cb5 (operator delete[](void*))
+--12361-- REDIR: 0x3dca683ee0 (mempcpy) redirected to 0x4a0a740 (mempcpy)
+==12361== 
+==12361== HEAP SUMMARY:
+==12361==     in use at exit: 0 bytes in 0 blocks
+==12361==   total heap usage: 1,760 allocs, 1,760 frees, 10,738,192 bytes allocated
+==12361== 
+==12361== All heap blocks were freed -- no leaks are possible
+==12361== 
+==12361== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+--12361-- 
+--12361-- used_suppression:      6 dl-hack3-cond-1
+==12361== 
+==12361== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)

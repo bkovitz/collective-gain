@@ -1,0 +1,16 @@
+i: int;
+
+d: double;
+
+b: bool;
+
+f: RadialFunc named_object(
+
+
+
+i: { type = int; default = 0; }
+
+f: { type = RadialDecayFunc;
+     named_object(linear_decay, normal_decay);
+     default = linear_decay;
+   }
