@@ -29,11 +29,11 @@
 ;;     Takers put children into nearby squares, limited by sunlight absorbed
 
 
-(def x-size 6 #_30)
-(def y-size 6 #_30)
+(def x-size 20)
+(def y-size 20)
 (def world-dims [y-size x-size])
-(def num-initial-organisms 1)
-(def offspring-per-unit-sunlight (/ 1.0 9.0))
+(def num-initial-organisms 5)
+(def offspring-per-unit-sunlight (/ 1.0 8.0))
 (def collective-gain 1.0)
 (def collective-gain-per-square (/ collective-gain 8))
 
@@ -102,7 +102,8 @@
                 random-initial-organism)))
   
 (defn make-world []
-  {:organisms (make-organisms)})
+  {:organisms (make-organisms)
+   :generation-num 0})
 
 (defn get-organisms [world]
   (:organisms world))
@@ -119,11 +120,14 @@
 (defn get-claims [world]
   (:claims world))
 
-(defn get-absorbed-map [world]
+(defn get-absorbed [world]
   (:absorbed world))
 
 (defn get-offspring [world]
   (:offspring world))
+
+(defn inc-generation-num [world]
+  (update world :generation-num inc))
 
 (defn get-g-at [world coords]
   (mget (get-organisms world) coords))
@@ -131,6 +135,9 @@
 (defn get-organism-coordss [world]
   (->> (get-organisms world)
        (coordss-such-that some?)))
+
+(defn get-num-organisms [world]
+  (count (get-organism-coordss world)))
 
 (defn develop-one-organism [g]
   (ifprob g :giver :taker))
@@ -198,7 +205,7 @@
             (seq-coords (get-claims world)))))
 
 (defn amt-absorbed-at [world coords]
-  (mget (get-absorbed-map world) coords))
+  (mget (get-absorbed world) coords))
 
 (defn choose-num-offspring [world coords]
   (let [lambda (* (amt-absorbed-at world coords)
@@ -249,14 +256,48 @@
               orig-offspring
               (get-offspring-coords world)))))
 
-;(defn run-one-generation [world]
-;  (->> world
-;       develop
-;       make-sunlight
-;       claim-sunlight
-;       absorb-sunlight
-;       make-offspring
-;       mutate-offspring))
-;
-;(defn run []
-;  (nth (iterate run-one-generation (make-world)) 1))
+(defn offspring-replace-parents [world]
+  (if-let [offspring (get-offspring world)]
+    (-> world
+        (assoc :organisms offspring)
+        (dissoc :offspring))
+    world))
+
+;; Printing
+
+(defn mstr [mat]
+  (clojure.string/join \newline
+    (for [row mat]
+      (str "  " (clojure.string/join \space row)))))
+
+(defn print-world [world]
+  (println "generation-num" (:generation-num world))
+  (println "organisms\n" (mstr (get-organisms world)))
+  (println "development\n" (mstr (get-givers-and-takers world)))
+  (println "sunlight\n" (mstr (get-sunlight world)))
+  (println "absorption\n" (mstr (get-absorbed world)))
+  (println "offspring\n" (mstr (get-offspring world)))
+  (println "num-organisms" (get-num-organisms world))
+  (println)
+  world)
+
+;; Evolution
+
+(defn run-one-generation [world]
+  (let [result (->> world
+                    offspring-replace-parents
+                    develop
+                    make-sunlight
+                    claim-sunlight
+                    absorb-sunlight
+                    make-offspring
+                    mutate-offspring
+                    inc-generation-num)]
+    result
+    #_(print-world result)))
+
+(defn run []
+  (dorun 100
+    (->> (iterate run-one-generation (make-world))
+         (take-while #(> (get-num-organisms %) 0))
+         (map print-world))))
