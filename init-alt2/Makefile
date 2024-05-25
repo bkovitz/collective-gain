@@ -1,6 +1,7 @@
 #CXXFLAGS = -std=c++11 -Wall -O3
 CXXFLAGS = -std=c++20 -Wall -O3 -I/opt/homebrew/Cellar/boost/1.85.0/include
-LDFLAGS = -lm -L/opt/homebrew/Cellar/boost/1.85.0/lib -lboost_program_options
+LDFLAGS = -lm -L/opt/homebrew/Cellar/boost/1.85.0/lib -lboost_program_options \
+	-lboost_unit_test_framework
 
 RANDOM_OBJS = random.o
 INIT_ALT_OBJS = init-alt.o $(RANDOM_OBJS)
@@ -20,6 +21,7 @@ init-alt:	$(INIT_ALT_OBJS)
 
 c: $(C_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+
 
 # header-file dependencies
 -include $(OBJS:.o=.d)

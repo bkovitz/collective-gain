@@ -1,0 +1,31 @@
+The Plan
+
+main loop
+   
+
+
+----------
+
+getopt DONE
+
+Learn C++ unit test  DONE
+
+Torus2D  DONE
+
+
+RadialDecayTable with radius and sum as arguments.
+
+World with dimensions as arguments.
+
+Apply RadialDecayTable to World to determine amount of sunlight available
+at each cell.
+
+Apply RadialDecayTable to World to determine attempted absorption.
+
+Distribute sunlight to each taker.
+
+Takers reproduce, via Poisson process. Place each new organism with its own
+g in cells via RadialDecayTable.
+
+In cells that have more than one organism, randomly choose one for the next
+generation.

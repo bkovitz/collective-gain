@@ -1,0 +1,43 @@
+2nd version of the init-alt simulation, to mathematically model differential
+development inducing something like group selection.
+
+This 2nd version is simpler than the 1st version. The notions of 'predation'
+and 'protection' have been replaced by a simple 'gain' of sunlight induced
+by each giver.
+
+
+The world consists of a torus of cells, i.e. a 20x20 square with wrap-around
+(or some other size).
+
+Organisms can develop into two phenotypes: "taker" and "giver". A taker
+absorbs sunlight from the cell it occupies and nearby cells and converts
+it into offspring. The number of offspring is proportional to the amount
+of sunlight absorbed (via a Poisson distribution). When multiple takers try to
+absorb sunlight from the same cell, they split the total available
+proportionally. A giver does not reproduce; instead, it increases the amount
+of sunlight that organisms in the neighboring cells can absorb.
+
+Each organism fully occupies one cell, and carries a gene consisting of a
+number, g, in the range 0.0 to 1.0, equal to its probability of becoming a
+"giver". When an organism reproduces, its offspring receiver its g + a
+delta, in a small normal distribution. Thus g is under selective pressure:
+it should eventually settle on an optimal value for maximizing the population,
+which equates to maximizing the amount of sunlight absorbed.
+
+Each organism has a lifespan of 1 timestep, i.e. 1 generation. Each timestep:
+   1. Each organism becomes either a giver or a taker.
+   2. The givers add their "gain" to their own cell and nearby cells,
+      determining the total sunlight available at each cell.
+   3. The takers absorb sunlight. Each adds an "attempted absorption" to
+      nearby cells. If the total attempted absorption at a given cell is <=
+      the sunlight 
+   4. The takers reproduce and their offspring are deposited into nearby
+      cells.
+   5. All the organisms from the current timestep are removed.
+
+
+Should the each giver subtract one point of sunlight from its own cell,
+so it can't be absorbed by neighbors? This might simplify analysis of
+total sunlight absorbed. Or maybe not. We're really not interested in
+total sunlight absorbed; we're interested in total sunlight converted
+into organisms.
