@@ -5,6 +5,7 @@ LDFLAGS = -lm -L/opt/homebrew/Cellar/boost/1.85.0/lib -lboost_program_options \
 
 RANDOM_OBJS = random.o
 INIT_ALT_OBJS = init-alt.o $(RANDOM_OBJS)
+COLLECTIVE_GAIN_OBJS = collective-gain.o $(RANDOM_OBJS)
 C_OBJS = c.o $(RANDOM_OBJS)
 
 OBJS = $(INIT_ALT_OBJS) $(C_OBJS)
@@ -13,8 +14,14 @@ OBJS = $(INIT_ALT_OBJS) $(C_OBJS)
 	$(CXX) -c $(CXXFLAGS) $*.cc -o $*.o
 	$(CXX) -MM $(CXXFLAGS) $*.cc -o $*.d
 
-run: init-alt
+run: collective-gain
+	./collective-gain
+
+runi: init-alt
 	./init-alt
+
+collective-gain: $(COLLECTIVE_GAIN_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 init-alt:	$(INIT_ALT_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
@@ -26,5 +33,10 @@ c: $(C_OBJS)
 # header-file dependencies
 -include $(OBJS:.o=.d)
 
+tags:
+	ctags *.cc *.h
+
 clean:
 	rm -f a b c init-alt *.o *.d
+
+.PHONY: tags clean

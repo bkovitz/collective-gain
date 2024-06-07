@@ -1,3 +1,8 @@
 init-alt
 x-getopt
 x-ut
+collective-gain
+*.o
+*.d
+*.swp
+tags

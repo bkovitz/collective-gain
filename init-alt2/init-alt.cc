@@ -16,6 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cmath>
+#include <map>
 
 using std::cout;
 using std::endl;
