@@ -22,6 +22,7 @@ using std::cout;
 using std::endl;
 
 RandomUniformReal unit_interval_random = RandomUniformReal(0.0, 1.0);
+RandomUniformReal random_angle = RandomUniformReal(0.0, 2.0 * M_PI);
 
 struct Coord {
   const int x, y; 
@@ -55,11 +56,11 @@ std::ostream& operator<<(std::ostream& os, const Coord& c) {
 };
 
 struct Organism {
-  const float g;    // probability of becoming a giver
-  float fecundity;  // expected number of children
+  const double g;    // probability of becoming a giver
+  double fecundity;  // expected number of children
   bool is_giver = false;
 
-  Organism(float _g) : g(_g), fecundity(1.0) { }
+  Organism(double _g) : g(_g), fecundity(1.0) { }
 
   // returns true if this Organism became a giver
   bool develop_into_giver_or_taker() {
@@ -80,13 +81,16 @@ std::ostream& operator<<(std::ostream& os, const Organism& o) {
 class World {
 public:
   const int xsize, ysize;
-  std::map<Coord, Organism> organisms;
+  std::map<Coord, Organism> organisms;       // current population
+  std::map<Coord, Organism> next_organisms;  // next generation's population
 
   const int giving_radius = 4;
+  
+  RandomNormal random_mutation_delta = RandomNormal(0.0, 0.01);
 
-  World(int x, int y) : xsize(x), ysize(y), organisms() { }
+  World(int x, int y) : xsize(x), ysize(y), organisms(), next_organisms() { }
   World(int x, int y, std::map<Coord, Organism>&& orgs)
-  : xsize(x), ysize(y), organisms(std::move(orgs)) { }
+  : xsize(x), ysize(y), organisms(std::move(orgs)), next_organisms() { }
 
   static World make_world(int x, int y, int num_initial_organisms = 20) {
     auto place_random_initial_organism = [&]() {
@@ -106,7 +110,7 @@ public:
   void run_one_generation() {
     develop_into_givers();
     givers_spread_fecundity();
-    //takers_reproduce();
+    takers_reproduce();
     print();
   }
 
@@ -163,16 +167,65 @@ public:
     return result;
   }
 
-  /*
-  std::vector<std::pair<Coord, Organism>&>
-  givers() {
-    std::vector<std::pair<Coord, Organism>&> result{}
-    for (auto& pair : organisms)
-      if (pair.second.is_giver)
-        result.push_back(pair);
-    return result;
+  void takers_reproduce() {
+    for (auto& pair : organisms) {
+      const Coord& coord = pair.first;
+      Organism& o = pair.second;
+      if (!o.is_giver)   // if taker
+        reproduce(o, coord);
+    }
   }
-  */
+
+  void reproduce(const Organism& o, const Coord& coord) {
+    //double num_children = random_poisson(o.fecundity);
+    double num_children = o.fecundity;
+    int children_actually_produced = 0;
+    for (int i = 0; i < 200; i++) {
+      if (children_actually_produced >= num_children)
+        break;
+      double distance_from_parent = fabs(random_normal(0.0, 2));
+          // avg distance = 2 cells
+      double angle = random_angle();
+      Coord child_coord = normalize_coord(Coord{
+        (int)std::round(coord.x + distance_from_parent * cos(angle)),
+        (int)std::round(coord.y + distance_from_parent * sin(angle))
+      });
+      if (next_organisms.count(child_coord) == 0) {
+        next_organisms.emplace(
+          child_coord,
+          Organism{mutated(o.g)}
+        );
+        children_actually_produced++;
+      }
+    }
+    cout << "Organism at " << coord << ": num_children=" << num_children
+         << " children_actually_produced=" << children_actually_produced
+         << endl;
+  }
+
+  double mutated(double g) {
+    double result = g + random_mutation_delta();
+    if (result < 0.0)
+      return 0.0;
+    else if (result > 1.0)
+      return 1.0;
+    else
+      return result;
+  }
+
+  Coord normalize_coord(const Coord& c) {
+    int x = c.x;
+    if (x >= 0)
+      x = x % xsize;
+    else
+      x = xsize - abs(x) % xsize;
+    int y = c.y;
+    if (y >= 0)
+      y = y % ysize;
+    else
+      y = ysize - abs(y) % ysize;
+    return Coord{x, y};
+  }
 
   Coord add_coords(const Coord& c, const Coord& delta) {
     // NEXT Copy torus wrap-=around code from init-alt2.cc
@@ -190,6 +243,14 @@ public:
   }
 
   void print() {
+    print_as_grid(organisms);
+    cout << organisms.size() << endl;
+    cout << endl;
+    print_as_grid(next_organisms);
+    cout << next_organisms.size() << endl;
+  }
+
+  void print_as_grid(const std::map<Coord, Organism>& organisms) {
     for (int i = 0; i < xsize; i++) {
       for (int j = 0; j < ysize; j++) {
         Coord c{i, j};
@@ -200,7 +261,6 @@ public:
       }
       cout << endl;
     }
-    cout << organisms.size() << endl;
   }
 
   void print_fecundity() {
