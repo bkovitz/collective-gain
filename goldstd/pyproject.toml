@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "cgain"
+version = "0.1.0"
+description = "A simple model of collective gain"
+authors = ["Zoltan A. Kocsis <11808286+zaklogician@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+mypy = "^1.10.0"
+uniplot = "^0.12.7"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.0"
+uniplot = "^0.12.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
