@@ -26,6 +26,9 @@ RandomUniformReal random_angle = RandomUniformReal(0.0, 2.0 * M_PI);
 
 double initial_g = 0.01;  // g of all organisms in zeroth generation
 int num_gens = 10000;       // number of generations to run
+double base_fecundity = 1.0;
+int world_xsize = 20;
+int world_ysize = 20;
 
 struct Coord;
 
@@ -81,7 +84,7 @@ struct Organism {
   double fecundity;  // expected number of children
   bool is_giver = false;
 
-  Organism(double _g) : g(_g), fecundity(1.0) { }
+  Organism(double _g) : g(_g), fecundity(base_fecundity) { }
 
   // returns true if this Organism became a giver
   bool develop_into_giver_or_taker() {
@@ -297,11 +300,11 @@ public:
   }
 
   void print_data() {
-    cout << "data " << organisms.size() <<
-                ' ' << std::fixed << std::setprecision(2) << average_g() <<
-                ' ' << num_givers <<
-                ' ' << children_attempted <<
-                ' ' << children_produced << endl;
+    cout << "data, " << organisms.size() <<
+                ", " << std::fixed << std::setprecision(2) << average_g() <<
+                ", " << num_givers <<
+                ", " << children_attempted <<
+                ", " << children_produced << endl;
     if (organisms.size() > xsize * ysize) {
       for (const auto& pair : organisms)
         cout << "  " << pair.first << ' ' << pair.second << ' '
@@ -378,9 +381,26 @@ void short_test() {
   cout << endl;
 }
 
-int main() {
-  cout << std::boolalpha;
-  World w = World::make_world(20, 20);
+void set_up_experiment1() {
+  cout << "experiment1" << endl;
+  base_fecundity = 1.0;
+  world_xsize = 20;
+  world_ysize = 20;
+  num_gens = 400;
+  initial_g = 0.01;
+}
+
+void set_up_experiment2() {
+  cout << "experiment2" << endl;
+  base_fecundity = 0.0;
+  world_xsize = 20;
+  world_ysize = 20;
+  num_gens = 4000;
+  initial_g = 0.5;
+}
+
+void run_experiment() {
+  World w = World::make_world(world_xsize, world_ysize);
   cout << "gen 0" << endl;
   w.print();
   for (int gen = 1; gen < num_gens + 1; gen++) {
@@ -388,5 +408,11 @@ int main() {
     w.run_one_generation();
     //w.print();
   }
+}
+
+int main() {
+  cout << std::boolalpha;
+  set_up_experiment2();
+  run_experiment();
   return 0;
 }
