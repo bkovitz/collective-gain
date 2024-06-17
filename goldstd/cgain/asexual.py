@@ -1,5 +1,6 @@
 
 import uniplot as up
+import sys
 
 ########################
 ### MODEL PARAMETERS ###
@@ -15,6 +16,7 @@ habitat_max_capacity: float = 100.0
 base_growth_rate: float = 0.25
 
 # the ideal growth rate of a population consisting of 100% givers
+# (the number of children that a taker would have if placed in a population of 100% givers)
 ideal_giver_growth_rate: float = 0.25
 
 # death rate (same units as base growth rate, not affected by capacity!)
@@ -40,13 +42,52 @@ giver_pop: float = 0.0
 taker_carrier_pop: float = 5.0
 taker_noncarrier_pop: float = 5.0
 
+def experiment0():
+    '''The very first experiment. Result: givers get exploited but don't disappear.'''
+    global habitat_base_capacity, habitat_max_capacity, base_growth_rate, ideal_giver_growth_rate, death_rate, mutation_prob, giver_develop_prob, \
+           giver_capacity_increase, delta_t, giver_pop, taker_carrier_pop, taker_noncarrier_pop
+    habitat_base_capacity = 10.0
+    habitat_max_capacity = 100.0
+    base_growth_rate = 0.25
+    ideal_giver_growth_rate = 0.25
+    death_rate = 0.1
+    mutation_prob = 0.05
+    giver_develop_prob = 0.2
+    giver_capacity_increase = 0.0
+    delta_t = 0.01
+    giver_pop = 0.0
+    taker_carrier_pop = 5.0
+    taker_noncarrier_pop = 5.0
+    print("experiment0")
+
+def experiment1():
+    global habitat_base_capacity, habitat_max_capacity, base_growth_rate, ideal_giver_growth_rate, death_rate, mutation_prob, giver_develop_prob, \
+           giver_capacity_increase, delta_t, giver_pop, taker_carrier_pop, taker_noncarrier_pop
+    habitat_base_capacity = 400.0
+    habitat_max_capacity = 400.0
+    base_growth_rate = 1.00
+    ideal_giver_growth_rate = 81.00    # like 9x9 square of "spreading fecundity" in C++ experiment1
+    death_rate = 1.0 - (20.0 / 400.0)  # keep population of 20 stable without givers
+    # We verified experimentally in the C++ versions that the ratio of givers to the whole population over all generations was 0.047.
+    mutation_prob = 0.00
+    giver_develop_prob = 0.047
+    giver_capacity_increase = 0.0
+    delta_t = 0.01
+    giver_pop = 0.0
+    taker_carrier_pop = 20.0
+    taker_noncarrier_pop = 0.0
+    print("experiment1")
+
+# change this to run a different experiment
+experiment1()
+
 ################
 ### DYNAMICS ###
 ################
 
 history: list[tuple] = []
 
-for step in range(25000):
+for step in range(350):
     # print summary
     reproductive_pop: float = taker_carrier_pop + taker_noncarrier_pop
     total_pop: float = giver_pop + reproductive_pop
@@ -72,6 +113,22 @@ for step in range(25000):
     giver_pop = giver_pop + prob_giver*delta_growth - delta_giver_death
     taker_carrier_pop = taker_carrier_pop + prob_taker_carrier*delta_growth - delta_taker_carrier_death
     taker_noncarrier_pop = taker_noncarrier_pop + prob_taker_noncarrier*delta_growth - delta_taker_noncarrier_death
+
+#    if taker_noncarrier_pop > 20.0:
+#        print("delta_giver_death", delta_giver_death)
+#        print("delta_taker_carrier_death", delta_taker_carrier_death)
+#        print("delta_taker_noncarrier_death", delta_taker_noncarrier_death)
+#        print("growth_rate", growth_rate)
+#        print("habitat_capacity", habitat_capacity)
+#        print("delta_growth", delta_growth)
+#        print("carrier_parent_prob", carrier_parent_prob)
+#        print("noncarrier_parent_prob", noncarrier_parent_prob)
+#        print("prob_giver", prob_giver)
+#        print("prob_taker_carrier", prob_taker_carrier)
+#        print("prob_taker_noncarrier", prob_taker_noncarrier)
+#        print()
+#        sys.exit(2)
+
 
 
 ##########
