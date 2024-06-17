@@ -19,6 +19,7 @@ public:
 };
 
 extern TimeSeedSeq seeder;
+extern std::seed_seq constant_seeder;
 
 template <template <class> class DistributionType, typename OutputType>
 class Random {
@@ -30,6 +31,7 @@ public:
   template <typename ...Args>
   Random(Args&& ...args)
   : rng(seeder.next_seed()),
+    //rng(constant_seeder.next_seed()),
     distribution(std::forward<Args>(args)...) { }
 
   OutputType operator()() { return distribution(rng); }
