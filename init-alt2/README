@@ -41,3 +41,12 @@ so it can't be absorbed by neighbors? This might simplify analysis of
 total sunlight absorbed. Or maybe not. We're really not interested in
 total sunlight absorbed; we're interested in total sunlight converted
 into organisms.
+
+
+collective-gain-fecundity:
+  Givers increase the fecundity (number of offspring) of their neighbors.
+
+collective-gain:
+  Givers increase the carrying capacity of nearby cells. The carrying capacity
+  of a cell is the probability that an organism there will survive to
+  adulthood.

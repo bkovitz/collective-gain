@@ -1,5 +1,5 @@
 /*
- * collective-gain.cc -- Givers & Takers simulation
+ * collective-gain-fecundity.cc -- Givers & Takers simulation
  *
  * Very simple: givers add to number of offspring of neighboring takers.
  */

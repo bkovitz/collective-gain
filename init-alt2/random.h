@@ -1,6 +1,8 @@
 #ifndef RANDOM_H_INCLUDED
 #define RANDOM_H_INCLUDED
 
+#include <random>
+
 namespace randoms {
   extern unsigned int seed;
   extern bool need_seed;

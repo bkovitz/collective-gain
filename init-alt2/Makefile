@@ -6,6 +6,7 @@ LDFLAGS = -lm -L/opt/homebrew/Cellar/boost/1.85.0/lib -lboost_program_options \
 RANDOM_OBJS = random.o
 INIT_ALT_OBJS = init-alt.o $(RANDOM_OBJS)
 COLLECTIVE_GAIN_OBJS = collective-gain.o $(RANDOM_OBJS)
+COLLECTIVE_GAIN_FECUNDITY_OBJS = collective-gain-fecundity.o $(RANDOM_OBJS)
 C_OBJS = c.o $(RANDOM_OBJS)
 
 OBJS = $(INIT_ALT_OBJS) $(C_OBJS)
@@ -20,7 +21,13 @@ run: collective-gain
 runi: init-alt
 	./init-alt
 
+runf: collective-gain-fecundity
+	./collective-gain-fecundity
+
 collective-gain: $(COLLECTIVE_GAIN_OBJS)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+
+collective-gain-fecundity: $(COLLECTIVE_GAIN_FECUNDITY_OBJS)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 init-alt:	$(INIT_ALT_OBJS)
