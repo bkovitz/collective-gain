@@ -1,69 +1,42 @@
 #ifndef RANDOM_H_INCLUDED
 #define RANDOM_H_INCLUDED
 
-#include <iostream>
+namespace randoms {
+  extern unsigned int seed;
+  extern bool need_seed;
+  extern std::mt19937 rng;
+  extern void reseed();
+  extern void reseed(unsigned int);
 
-#include <random>
-#include <chrono>
-#include <utility>
+  template <template <class> class DistributionType, typename OutputType>
+  class Random {
+  protected:
+    DistributionType<OutputType> distribution;
 
-class TimeSeedSeq {
-   std::default_random_engine rng;
+  public:
+    template <typename ...Args>
+    Random(Args&& ...args) : distribution(std::forward<Args>(args)...) { }
 
-public:
-   TimeSeedSeq() :
-      rng(std::chrono::system_clock::now().time_since_epoch().count())
-   { rng.discard(1); }
-
-   unsigned next_seed() { return rng(); }
-};
-
-extern TimeSeedSeq seeder;
-extern std::seed_seq constant_seeder;
-
-template <template <class> class DistributionType, typename OutputType>
-class Random {
-protected:
-  std::default_random_engine rng;
-  DistributionType<OutputType> distribution;
-
-public:
-  template <typename ...Args>
-  Random(Args&& ...args)
-  : rng(seeder.next_seed()),
-    //rng(constant_seeder.next_seed()),
-    distribution(std::forward<Args>(args)...) { }
-
-  OutputType operator()() { return distribution(rng); }
-};
+    OutputType operator()() { return distribution(randoms::rng); }
+  };
+}
 
 using RandomUniformInt =
-          Random<std::uniform_int_distribution, int>;
+          randoms::Random<std::uniform_int_distribution, int>;
 using RandomUniformReal =
-          Random<std::uniform_real_distribution, double>;
+          randoms::Random<std::uniform_real_distribution, double>;
 using RandomPoisson =
-          Random<std::poisson_distribution, int>;
+          randoms::Random<std::poisson_distribution, int>;
 using RandomNormal =
-          Random<std::normal_distribution, double>;
-
-class RandomTruncatedNormal : protected RandomNormal {
-protected:
-  double mean;
-public:
-  RandomTruncatedNormal(double mean_, double standard_deviation) :
-      RandomNormal(0.0, standard_deviation),
-      mean(mean_) { }
-
-  int operator()() { return (int)(mean + (int)distribution(rng) + 0.5); }
-};
+          randoms::Random<std::normal_distribution, double>;
 
 inline double random_normal(double mean, double standard_deviation) {
-  RandomNormal normal(mean, standard_deviation);
+  static RandomNormal normal(mean, standard_deviation);
   return normal();
 }
 
 inline int random_poisson(double mean) {
-  RandomPoisson poisson(mean);
+  static RandomPoisson poisson(mean);
   return poisson();
 }
 

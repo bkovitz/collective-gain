@@ -15,13 +15,16 @@
 #include <map>
 #include <ranges>
 #include <functional>
+#include <getopt.h>
 
 #include "random.h"
 
 using std::cout;
+using std::cerr;
 using std::endl;
 
 RandomUniformReal unit_interval_random = RandomUniformReal(0.0, 1.0);
+//std::uniform_real_distribution<double> unit_interval_random(0.0, 1.0);
 RandomUniformReal random_angle = RandomUniformReal(0.0, 2.0 * M_PI);
 
 double initial_g = 0.01;  // g of all organisms in zeroth generation
@@ -29,6 +32,7 @@ int num_gens = 10000;       // number of generations to run
 double base_fecundity = 1.0;
 int world_xsize = 20;
 int world_ysize = 20;
+double acorn_stdev = 2.0;  // std deviation of child's distance from parent
 
 struct Coord;
 
@@ -89,6 +93,7 @@ struct Organism {
   // returns true if this Organism became a giver
   bool develop_into_giver_or_taker() {
     if (unit_interval_random() < g)
+    //if (unit_interval_random(randoms::rng) < g)
       is_giver = true;
     return is_giver;
   }
@@ -410,9 +415,99 @@ void run_experiment() {
   }
 }
 
-int main() {
+void print_command_line_options()
+{
+  cout << "--initial_g=" << initial_g << endl;
+  cout << "--num_gens=" << num_gens << endl;
+  cout << "--xsize=" << world_xsize << endl;
+  cout << "--ysize=" << world_ysize << endl;
+  cout << "--base_fecundity=" << base_fecundity << endl;
+  cout << "--seed=" << randoms::seed << endl;
+  cout << "--acorn_stdev=" << acorn_stdev << endl;
+}
+
+/*
+ * Sets up global variables to match command-line options. Returns 0 if
+ * successful, or an error code to return to the shell
+ *
+ * Initialized the random-number seed.
+ */
+
+int parse_command_line_options(int argc, char** argv)
+{
+  int option_index = 0;
+  static struct option long_options[] = {
+    { "initial_g", required_argument, 0, 0 },
+    { "num_gens", required_argument, 0, 0},
+    { "xsize", required_argument, 0, 0},
+    { "ysize", required_argument, 0, 0},
+    { "base_fecundity", required_argument, 0, 0},
+    { "seed", required_argument, 0, 0},
+    { "acorn_stdev", required_argument, 0, 0},
+    { NULL, 0, 0, 0 }
+  };
+
+  for ( ; ; ) {
+    int c = getopt_long(argc, argv, "", long_options, &option_index);
+    if (c == -1)
+      break;
+    if (c == 0) {
+      switch (option_index) {
+      case 0:
+        initial_g = atof(optarg);
+        break;
+      case 1:
+        num_gens = atoi(optarg);
+        break;
+      case 2:
+        world_xsize = atoi(optarg);
+        break;
+      case 3:
+        world_ysize = atoi(optarg);
+        break;
+      case 4:
+        base_fecundity = atof(optarg);
+        break;
+      case 5:
+        randoms::reseed(atoi(optarg));
+        break;
+      case 6:
+        acorn_stdev = atof(optarg);
+        break;
+      default:
+        cerr << "Internal error\n";
+        return 2;
+      }
+    } else {
+      return 1; // unrecognized option
+    }
+  }
+  if (optind < argc) {
+    cerr << "unknown args --\n";
+    while (optind < argc)
+      cerr << "  " << argv[optind++] << endl;
+    return 1;
+  }
+  if (randoms::need_seed)
+    randoms::reseed();
+  return 0;
+}
+
+int main(int argc, char** argv) {
   cout << std::boolalpha;
-  set_up_experiment2();
+  int err = parse_command_line_options(argc, argv);
+  if (err != 0)
+    exit(err);
+  print_command_line_options();
+
+  // a way to see if the random-number seed stuff is working
+  for (int i = 0; i < 5; i++) {
+    cout << unit_interval_random() << endl;
+  }
+
+  /*
+  set_up_experiment1();
+  */
   run_experiment();
   return 0;
 }
