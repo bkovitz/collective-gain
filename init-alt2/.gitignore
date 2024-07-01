@@ -2,6 +2,7 @@ init-alt
 x-getopt
 x-ut
 collective-gain
+collective-gain-fecundity
 *.o
 *.d
 *.swp

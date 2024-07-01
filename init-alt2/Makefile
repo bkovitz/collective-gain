@@ -16,7 +16,8 @@ OBJS = $(INIT_ALT_OBJS) $(C_OBJS)
 	$(CXX) -MM $(CXXFLAGS) $*.cc -o $*.d
 
 run: collective-gain
-	./collective-gain
+	./collective-gain --num_gens 400 --show_givers --show_carrying_capacity \
+		--show_next_organisms
 
 runi: init-alt
 	./init-alt
