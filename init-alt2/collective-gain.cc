@@ -328,7 +328,7 @@ public:
 
   void takers_reproduce_by_eggs() {
     next_organisms.clear();
-    for (auto& egg : std::views::values(lay_eggs())) {
+    for (auto& egg : lay_eggs()) {
       auto r = unit_interval_random();
       auto cc = carrying_capacity[index2d(egg.egg_location)];
       /*
@@ -352,8 +352,8 @@ public:
     std::shuffle(result.begin(), result.end(), randoms::rng);
     return result;
   }
-
-  EggMap lay_eggs() {
+ 
+  std::vector<Egg> lay_eggs() {
     std::vector<Egg> eggs;
     for (auto& pair : organisms) {
       const Coord& c = pair.first;
@@ -377,7 +377,11 @@ public:
       }
     }
     cout << "number of eggs: " << result.size() << endl;
-    return result;
+    std::vector<Egg> final_eggs;
+    for (auto& pair : result) {
+      final_eggs.push_back(pair.second);
+    }
+    return final_eggs;
   }
 
   /*
@@ -627,7 +631,7 @@ void run_special() {
   World w = World::make_world(world_xsize, world_ysize);
   w.print();
   auto eggs = w.lay_eggs();
-  for (auto& egg : std::views::values(eggs)) {
+  for (auto& egg : eggs) {
     cout << egg << endl;
     if (unit_interval_random() < w.carrying_capacity[w.index2d(egg.egg_location)])
       w.next_organisms.emplace(
