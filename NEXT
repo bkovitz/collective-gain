@@ -1,0 +1,13 @@
+30-Jun-2024:
+  NEXT:
+    1. Make a non-mutating experiment in M(b) and see if an initial set
+    of high-g organisms dies out or persists.
+
+    2. Make the analogous experiment in M(a).
+
+    3. For "everyone is partly a giver", add an egg-survival probability
+    and multiply it by the carrying capacity.
+
+    4. Couple two goldstd models together: see if freeloaders push the
+    carriers back and forth between two compartments. Or will they
+    homogenize?

@@ -656,8 +656,8 @@ void print_command_line_options()
   cout << "--base_carrying_capacity=" << base_carrying_capacity << lc;
   // TODO show_givers, etc.
   cout << "--giving_radius=" << giving_radius << lc;
-  cout << "--laying_radius=" << giving_radius << endl;
-  cout << "--cc_delta=" << cc_delta << endl;
+  cout << "--laying_radius=" << giving_radius << lc;
+  cout << "--cc_delta=" << cc_delta << lc;
   cout << "--mutation_stdev=" << mutation_stdev << endl;
 }
 

@@ -19,6 +19,63 @@ run: collective-gain
 	./collective-gain --num_gens 400 --show_givers --show_carrying_capacity \
 		--show_next_organisms
 
+# Givers have no effect (they don't give, but they still don't reproduce)
+run00: collective-gain
+	./collective-gain \
+		--initial_g=0.01 \
+		--num_gens=400 \
+		--xsize=30 \
+		--ysize=30 \
+		--base_fecundity=1 \
+		--seed=590679785 \
+		--acorn_stdev=2 \
+		--base_carrying_capacity=0.09 \
+		--giving_radius=2 \
+		--laying_radius=2 \
+		--cc_delta=0 \
+		--mutation_stdev=0.05 \
+	  --show_givers --show_carrying_capacity \
+		--show_next_organisms
+# result: population hovers around 70, average around 0.09
+# data, 72, 0.07, 8, 0, 0
+
+# Givers have huge effect: cc_delta=0.40
+run40: collective-gain
+	./collective-gain \
+		--initial_g=0.01 \
+		--num_gens=400 \
+		--xsize=30 \
+		--ysize=30 \
+		--base_fecundity=1 \
+		--seed=590679785 \
+		--acorn_stdev=2 \
+		--base_carrying_capacity=0.09 \
+		--giving_radius=2 \
+		--laying_radius=2 \
+		--cc_delta=0.40 \
+		--mutation_stdev=0.05 \
+	  --show_givers --show_carrying_capacity \
+		--show_next_organisms
+# result: population rapidly grows to around 400, average g around 0.10
+# data, 370, 0.11, 31, 0, 0
+
+run40_slow_mutation: collective-gain
+	./collective-gain \
+		--initial_g=0.01 \
+		--num_gens=400 \
+		--xsize=30 \
+		--ysize=30 \
+		--base_fecundity=1 \
+		--seed=590679785 \
+		--acorn_stdev=2 \
+		--base_carrying_capacity=0.09 \
+		--giving_radius=2 \
+		--laying_radius=2 \
+		--cc_delta=0.40 \
+		--mutation_stdev=0.01 \
+	  --show_givers --show_carrying_capacity \
+		--show_next_organisms
+
 runi: init-alt
 	./init-alt
 
