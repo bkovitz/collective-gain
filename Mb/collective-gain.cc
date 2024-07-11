@@ -452,6 +452,7 @@ public:
   }
 
   double mutated(double g) {
+    /*
     double result = g + random_mutation_delta();
     if (result < 0.0)
       return 0.0;
@@ -459,6 +460,8 @@ public:
       return 1.0;
     else
       return result;
+    */
+    return std::clamp(g + random_mutation_delta(), 0.0, 1.0);
   }
 
   Coord normalize_coord(const Coord& c) {
