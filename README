@@ -1,0 +1,16 @@
+Models of collective gain to see if a gene for altruistic behavior can persist
+in a population if it induces a large enough benefit for other organisms of
+the same species. Also called the "Givers & Takers" models.
+
+Ma is a deterministic model consisting only of differential equations that
+track the number of carriers and non-carriers of a gene that, eith a certain
+probability, turns an organism into a sterile giver.
+
+Mb is a stochastic model in which organisms live on a grid with torus
+topology.
+
+Mc is the oldest Givers & Takers model. It's more complex than the others
+and stochastically models organisms living on a rectangular grid, competing
+for sunlight, and subject to predation.
+
+

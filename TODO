@@ -1,0 +1,12 @@
+10-Jul-2024
+
+* Increase the radius of giving in Mb. Does that tend to make the noncarriers prevail in
+  a world without mutation?
+  Or, stated the other way, does a small radius of giving (which is implicit kin selection)
+  create some stability for carriers?
+  We'll need:
+  - switch to indicate number of carriers at the start.
+  - switch to replace continuously variable g with carrier on/off
+DONE: Result is mutation with kinship selection makes the altruistic gene
+prevail, with a few freeloaders continuing to exist. Removing kinship selection
+causes the altruistic gene to go extinct.

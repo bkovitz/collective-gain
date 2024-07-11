@@ -76,6 +76,47 @@ run40_slow_mutation: collective-gain
 	  --show_givers --show_carrying_capacity \
 		--show_next_organisms
 
+run40_no_mutation: collective-gain
+	./collective-gain \
+		--initial_g=0.00 \
+		--num_gens=400 \
+		--xsize=30 \
+		--ysize=30 \
+		--base_fecundity=1 \
+		--seed=590679785 \
+		--acorn_stdev=2 \
+		--base_carrying_capacity=0.09 \
+		--giving_radius=2 \
+		--laying_radius=2 \
+		--cc_delta=0.40 \
+		--mutation_stdev=0.00 \
+		--num_initial_carriers=1 \
+		--carrier_initial_g=0.05 \
+		--num_initial_organisms=20 \
+	  --show_givers --show_carrying_capacity \
+		--show_next_organisms
+
+run40_no_mutation_no_kin_selection: collective-gain
+	./collective-gain \
+		--initial_g=0.00 \
+		--num_gens=400 \
+		--xsize=30 \
+		--ysize=30 \
+		--base_fecundity=1 \
+		--seed=590679785 \
+		--acorn_stdev=2 \
+		--base_carrying_capacity=0.09 \
+		--giving_radius=15 \
+		--laying_radius=2 \
+		--cc_delta=0.40 \
+		--mutation_stdev=0.00 \
+		--num_initial_carriers=1 \
+		--carrier_initial_g=0.05 \
+		--num_initial_organisms=20 \
+	  --show_givers --show_carrying_capacity \
+		--show_next_organisms
+# giving_radius=15 should cover the whole world
+
 runi: init-alt
 	./init-alt
 

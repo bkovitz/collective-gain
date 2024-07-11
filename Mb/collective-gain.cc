@@ -30,8 +30,11 @@ RandomUniformReal unit_interval_random = RandomUniformReal(0.0, 1.0);
 //std::uniform_real_distribution<double> unit_interval_random(0.0, 1.0);
 RandomUniformReal random_angle = RandomUniformReal(0.0, 2.0 * M_PI);
 
-double initial_g = 0.01;  // g of all organisms in zeroth generation
 int num_gens = 10000;       // number of generations to run
+int num_initial_organisms = 20;
+double initial_g = 0.01;  // g of all organisms in zeroth generation
+double carrier_initial_g = 0.01; // g of special "carrier" subpopulation
+int num_initial_carriers = 0;        // size of special "carrier" subpopulation
 double base_fecundity = 1.0;
 double base_carrying_capacity = 0.09;
   // the carrying capacity of a cell before any givers add to it
@@ -175,19 +178,22 @@ public:
   : xsize(x), ysize(y), organisms(std::move(orgs)), next_organisms(),
     carrying_capacity() { initialize_carrying_capacity(); }
 
-  static World make_world(int x, int y, int num_initial_organisms = 20) {
+  static World make_world(int x, int y) {
 //    auto place_random_initial_organism = [&]() {
 //      cout << x << y << endl;
 //    };
 //    place_random_initial_organism();
     std::unordered_map<Coord, Organism> m{};
-    for (int i = 0; i < 3 * num_initial_organisms; i++) {
+    // TODO Test that num_initial_organisms is no greater than the number
+    // of cells; if so, error out.
+    while (m.size() < num_initial_organisms) {
       Coord c = Coord::random(x - 1, y - 1);
       //cout << "making at " << c << endl;
       //m.try_emplace(c, Organism(initial_g));
-      m.try_emplace(c, initial_g);
-      if (m.size() >= num_initial_organisms)
-        break;
+      if (m.size() < num_initial_carriers)
+        m.try_emplace(c, carrier_initial_g);
+      else
+        m.try_emplace(c, initial_g);
     }
 
     //cout << "World made. size=" << m.size() << endl;
@@ -661,6 +667,9 @@ void print_command_line_options()
   cout << "--giving_radius=" << giving_radius << lc;
   cout << "--laying_radius=" << giving_radius << lc;
   cout << "--cc_delta=" << cc_delta << lc;
+  cout << "--carrier_initial_g=" << carrier_initial_g << lc;
+  cout << "--num_initial_carriers=" << num_initial_carriers << lc;
+  cout << "--num_initial_organisms=" << num_initial_organisms << lc;
   cout << "--mutation_stdev=" << mutation_stdev << endl;
 }
 
@@ -690,6 +699,9 @@ int parse_command_line_options(int argc, char** argv)
     { "laying_radius", required_argument, 0, 0},
     { "cc_delta", required_argument, 0, 0},
     { "mutation_stdev", required_argument, 0, 0},
+    { "carrier_initial_g", required_argument, 0, 0},
+    { "num_initial_carriers", required_argument, 0, 0},
+    { "num_initial_organisms", required_argument, 0, 0},
     { NULL, 0, 0, 0 }
   };
 
@@ -743,6 +755,15 @@ int parse_command_line_options(int argc, char** argv)
         break;
       case 14:
         mutation_stdev = atof(optarg);
+        break;
+      case 15:
+        carrier_initial_g = atof(optarg);
+        break;
+      case 16:
+        num_initial_carriers = atoi(optarg);
+        break;
+      case 17:
+        num_initial_organisms = atoi(optarg);
         break;
       default:
         cerr << "Internal error\n";
