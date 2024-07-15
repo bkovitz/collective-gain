@@ -506,11 +506,31 @@ public:
     
   }
 
+  /* number of organisms with g >= carrier_initial_g */
+  int num_carriers() {
+    int result = 0;
+    for (const auto& o : std::views::values(organisms))
+      if (o.g >= carrier_initial_g)
+        result++;
+    return result;
+  }
+
+  int num_noncarriers() {
+    return organisms.size() - num_carriers();
+  }
+
+  double carrier_noncarrier_ratio() {
+    return (double)num_carriers() / (double)num_noncarriers();
+  }
+
   void print_data() {
     cout << "data, " << gen <<
                 ", " << organisms.size() <<
                 ", " << std::fixed << std::setprecision(2) << average_g() <<
                 ", " << num_givers <<
+                ", " << num_carriers() <<
+                ", " << num_noncarriers() <<
+                ", " << carrier_noncarrier_ratio() <<
                 ", " << children_attempted <<
                 ", " << children_produced << endl;
     if (organisms.size() > xsize * ysize) {

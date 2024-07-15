@@ -1,3 +1,4 @@
+make collective-gain
 for i in {1..50}
 do
   # make run_mut_no_kin_no_data_only > /tmp/a
@@ -22,8 +23,14 @@ do
   awk '{print $3}' < /tmp/a > tmp3d${i}
   awk '{print $4}' < /tmp/a > tmp4d${i}
   awk '{print $5}' < /tmp/a > tmp5d${i}
+  awk '{print $6}' < /tmp/a > tmp6d${i}
+  awk '{print $7}' < /tmp/a > tmp7d${i}
+  awk '{print $8}' < /tmp/a > tmp8d${i}
 done
 
 paste -d '\0' tmp3d* | grep , > alldata_popsize.csv
 paste -d '\0' tmp4d* | grep , > alldata_avgg.csv
 paste -d '\0' tmp5d* | grep , > alldata_givers.csv
+paste -d '\0' tmp6d* | grep , > alldata_carriers.csv
+paste -d '\0' tmp7d* | grep , > alldata_noncarriers.csv
+paste -d '\0' tmp8d* | grep , > alldata_ratio.csv
