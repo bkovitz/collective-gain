@@ -7,8 +7,8 @@
  */
 
 //#define BOOST_TEST_DYN_LINK  // enable or compile with -D for unit tests
-#define BOOST_TEST_MODULE CollectiveGain
-#include <boost/test/unit_test.hpp>
+//#define BOOST_TEST_MODULE CollectiveGain
+//#include <boost/test/unit_test.hpp>
 
 #include <iostream>
 #include <iomanip>
@@ -31,6 +31,7 @@ RandomUniformReal unit_interval_random = RandomUniformReal(0.0, 1.0);
 RandomUniformReal random_angle = RandomUniformReal(0.0, 2.0 * M_PI);
 
 int num_gens = 10000;       // number of generations to run
+int gen = 0;                // current generation
 int num_initial_organisms = 20;
 double initial_g = 0.01;  // g of all organisms in zeroth generation
 double carrier_initial_g = 0.01; // g of special "carrier" subpopulation
@@ -233,6 +234,7 @@ public:
     std::swap(organisms, next_organisms);
     if (show_next_organisms)
       print();
+    print_data();
   }
 
   void reset_carrying_capacity() {
@@ -382,7 +384,8 @@ public:
           break;
       }
     }
-    cout << "number of eggs: " << result.size() << endl;
+    if (show_next_organisms)
+      cout << "number of eggs: " << result.size() << endl;
     std::vector<Egg> final_eggs;
     for (auto& pair : result) {
       final_eggs.push_back(pair.second);
@@ -497,7 +500,6 @@ public:
   void print() {
     cout << "next organisms:\n";
     print_as_grid(organisms);
-    print_data();
     //cout << endl;
     //print_as_grid(next_organisms);
     //cout << next_organisms.size() << endl;
@@ -505,7 +507,8 @@ public:
   }
 
   void print_data() {
-    cout << "data, " << organisms.size() <<
+    cout << "data, " << gen <<
+                ", " << organisms.size() <<
                 ", " << std::fixed << std::setprecision(2) << average_g() <<
                 ", " << num_givers <<
                 ", " << children_attempted <<
@@ -596,41 +599,47 @@ void short_test() {
   cout << endl;
 }
 
-void set_up_experiment1() {
-  cout << "experiment1" << endl;
-  base_fecundity = 1.0;
-  world_xsize = 20;
-  world_ysize = 20;
-  num_gens = 400;
-  initial_g = 0.01;
-}
-
-void set_up_experiment2() {
-  cout << "experiment2" << endl;
-  base_fecundity = 0.0;
-  world_xsize = 20;
-  world_ysize = 20;
-  num_gens = 4000;
-  initial_g = 0.5;
-}
-
-void run_experiment() {
-  World w = World::make_world(world_xsize, world_ysize);
-  cout << "gen 0" << endl;
-  w.print();
-  for (int gen = 1; gen < num_gens + 1; gen++) {
-    cout << endl << "gen" << gen << endl;
-    w.run_one_generation();
-    //w.print();
-  }
-}
+//void set_up_experiment1() {
+//  cout << "experiment1" << endl;
+//  base_fecundity = 1.0;
+//  world_xsize = 20;
+//  world_ysize = 20;
+//  num_gens = 400;
+//  initial_g = 0.01;
+//}
+//
+//void set_up_experiment2() {
+//  cout << "experiment2" << endl;
+//  base_fecundity = 0.0;
+//  world_xsize = 20;
+//  world_ysize = 20;
+//  num_gens = 4000;
+//  initial_g = 0.5;
+//}
+//
+//void run_experiment() {
+//  World w = World::make_world(world_xsize, world_ysize);
+//  if (show_next_organisms)
+//    cout << "gen 0" << endl;
+//  w.print();
+//  for (gen = 1; gen < num_gens + 1; gen++) {
+//    if (show_next_organisms)
+//      cout << endl << "gen" << gen << endl;
+//    w.run_one_generation();
+//    //w.print();
+//  }
+//}
 
 void run_experiment_cc() {
   World w = World::make_world(world_xsize, world_ysize);
-  cout << "gen 0" << endl;
-  w.print();
-  for (int gen = 1; gen < num_gens + 1; gen++) {
-    cout << endl << "gen" << gen << endl;
+  gen = 0;
+  if (show_next_organisms) {
+    cout << "gen 0" << endl;
+    w.print();
+  }
+  for (gen = 1; gen < num_gens + 1; gen++) {
+    if (show_next_organisms)
+      cout << endl << "gen" << gen << endl;
     w.run_one_generation_cc();
     //w.print();
   }
