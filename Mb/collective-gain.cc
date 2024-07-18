@@ -520,7 +520,10 @@ public:
   }
 
   double carrier_noncarrier_ratio() {
-    return (double)num_carriers() / (double)num_noncarriers();
+    int noncarriers = num_noncarriers();
+    if (noncarriers == 0)
+      return (double)(world_xsize*world_ysize); // effective infinity
+    return (double)num_carriers() / (double)noncarriers;
   }
 
   void print_data() {
