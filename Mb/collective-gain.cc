@@ -115,6 +115,10 @@ struct Organism {
       is_giver = true;
     return is_giver;
   }
+
+  bool is_carrier() const {
+    return g >= carrier_initial_g;
+  }
 };
 
 std::ostream& operator<<(std::ostream& os, const Organism& o) {
@@ -170,6 +174,9 @@ public:
   int children_attempted = 0;
   int children_produced = 0;
   int num_givers = 0;
+
+  double carrier_benefits_from_givers = 0.0;
+  double total_benefits_from_givers = 0.0;
   
   RandomNormal random_mutation_delta = RandomNormal(0.0, mutation_stdev);
 
@@ -201,6 +208,10 @@ public:
     return World(x, y, std::move(m));
   }
 
+  /*
+   * Runs a generation in which givers increase the fecundity of nearby
+   * organisms.
+   */
   void run_one_generation() {
     children_attempted = 0;
     children_produced = 0;
@@ -238,6 +249,8 @@ public:
   }
 
   void reset_carrying_capacity() {
+    carrier_benefits_from_givers = 0.0;
+    total_benefits_from_givers = 0.0;
     std::fill(
       carrying_capacity.begin(),
       carrying_capacity.end(),
@@ -344,6 +357,13 @@ public:
            << ", r = " << r
            << ", cc = " << cc << endl;
       */
+      /* How much more was the carrying capacity than base_carrying_capacity?
+       * That's how much egg.parent benefited from giving.
+       */
+      double benefit_from_giving = std::min(cc, 1.0) - base_carrying_capacity;
+      if (egg.parent->is_carrier())
+        carrier_benefits_from_givers += benefit_from_giving;
+      total_benefits_from_givers += benefit_from_giving;
       if (r <= cc) {
         //cout << "  ^survived\n";
         next_organisms.emplace(egg.egg_location, mutated(egg.parent->g));
@@ -535,12 +555,21 @@ public:
                 ", " << num_noncarriers() <<
                 ", " << carrier_noncarrier_ratio() <<
                 ", " << children_attempted <<
-                ", " << children_produced << endl;
+                ", " << children_produced <<
+                ", " << carrier_total_benefit_ratio() <<
+                endl;
     if (organisms.size() > xsize * ysize) {
       for (const auto& pair : organisms)
         cout << "  " << pair.first << ' ' << pair.second << ' '
              << (pair.second.is_giver ? "(g)" : "") << endl;
     }
+  }
+
+  double carrier_total_benefit_ratio() {
+    if (total_benefits_from_givers == 0.0)
+      return -1.0;  // should ignore this in the data: no givers this generation
+    else
+      return carrier_benefits_from_givers / total_benefits_from_givers;
   }
 
   double average_g() {

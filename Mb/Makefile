@@ -151,6 +151,23 @@ run_mut_no_kin_yes_data_only: collective-gain
 		--carrier_initial_g=0.05 \
 		--num_initial_organisms=20
 
+run_mut_no_kin_yes_many_initial_carriers_data_only: collective-gain
+	./collective-gain \
+		--initial_g=0.00 \
+		--num_gens=400 \
+		--xsize=30 \
+		--ysize=30 \
+		--base_fecundity=1 \
+		--acorn_stdev=2 \
+		--base_carrying_capacity=0.09 \
+		--giving_radius=2 \
+		--laying_radius=2 \
+		--cc_delta=0.40 \
+		--mutation_stdev=0.00 \
+		--num_initial_carriers=10 \
+		--carrier_initial_g=0.05 \
+		--num_initial_organisms=20
+
 runi: init-alt
 	./init-alt
 
