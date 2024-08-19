@@ -14,7 +14,7 @@ random.seed(1)
 # side.
 laying_radius: int = 2
 
-giving_radius: int = 6
+giving_radius: int = 1
 
 carrier_initial_g: float = 0.05
 
@@ -56,7 +56,7 @@ PNs = []
 for i in range(num_iterations):
     world = World()
     carrier1 = Organism((0, 0))
-    noncarrier1 = Organism(random_location_near((0, 0), 1.5 * laying_radius))
+    noncarrier1 = Organism(random_location_near((0, 0), 2 * laying_radius))
 
 #    # make babies until we get a giver
 #    while True:
