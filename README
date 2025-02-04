@@ -13,4 +13,5 @@ Mc is the oldest Givers & Takers model. It's more complex than the others
 and stochastically models organisms living on a rectangular grid, competing
 for sunlight, and subject to predation.
 
-
+Md is a new, further simplified stochastic model in which organisms live on a
+fully continuous toroidal world.
