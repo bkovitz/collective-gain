@@ -9,7 +9,7 @@ e: Experiment = Experiment(
     generations=200,
     capacity=1000,
     initial_organism_count=1000,
-    initial_carrier_count=0,
+    initial_carrier_count=1000,
     giving_radius=np.float64(0.093),
     giver_development_probability=np.float64(0.10),
     child_placement_radius=np.float64(0.093),
@@ -21,5 +21,5 @@ e: Experiment = Experiment(
 s: Simulation = Simulation(e)
 s.run()
 
-visualize: Visualize = Visualize(image_size=256, output_directory="visual")
+visualize: Visualize = Visualize(image_size=256, output_directory="only-carriers")
 visualize.simulation(s)

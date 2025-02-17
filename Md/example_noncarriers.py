@@ -21,5 +21,5 @@ e: Experiment = Experiment(
 s: Simulation = Simulation(e)
 s.run()
 
-visualize: Visualize = Visualize(image_size=256, output_directory="visual")
+visualize: Visualize = Visualize(image_size=256, output_directory="only-noncarriers")
 visualize.simulation(s)
